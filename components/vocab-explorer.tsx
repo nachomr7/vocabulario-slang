@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CountryToggle } from "@/components/country-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { VocabControls } from "@/components/vocab-controls";
 import { VocabTable, sortEntries, type SortState } from "@/components/vocab-table";
 import { SuggestWordDialog } from "@/components/suggest-word-dialog";
@@ -90,7 +91,10 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
   return (
     <div className="flex flex-col">
       <header className="flex flex-col items-center gap-3 border-b border-border pb-4 sm:flex-row sm:justify-end">
-        <CountryToggle country={country} onChange={setCountry} />
+        <div className="flex items-center gap-3">
+          <CountryToggle country={country} onChange={setCountry} />
+          <ThemeToggle />
+        </div>
       </header>
 
       <div className="flex flex-col gap-16 pt-10 sm:gap-20 sm:pt-14">
@@ -122,6 +126,7 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
             allCategorias={allCategorias}
             selectedCategorias={selectedCategorias}
             onToggleCategoria={toggleCategoria}
+            onClearCategorias={() => setSelectedCategorias(new Set())}
             allTipos={allTipos}
             tipoFilter={tipoFilter}
             onTipoFilterChange={setTipoFilter}

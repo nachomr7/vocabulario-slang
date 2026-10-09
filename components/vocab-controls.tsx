@@ -2,7 +2,14 @@
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { CategoryBadge } from "@/components/category-badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CategoryFilter } from "@/components/category-filter";
 import type { Copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +20,7 @@ export function VocabControls({
   allCategorias,
   selectedCategorias,
   onToggleCategoria,
+  onClearCategorias,
   allTipos,
   tipoFilter,
   onTipoFilterChange,
@@ -27,6 +35,7 @@ export function VocabControls({
   allCategorias: string[];
   selectedCategorias: Set<string>;
   onToggleCategoria: (categoria: string) => void;
+  onClearCategorias: () => void;
   allTipos: string[];
   tipoFilter: string | null;
   onTipoFilterChange: (tipo: string | null) => void;
@@ -37,7 +46,7 @@ export function VocabControls({
 }) {
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="flex flex-wrap items-center gap-3">
         <Input
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
@@ -45,19 +54,32 @@ export function VocabControls({
           className="sm:max-w-xs"
           aria-label="Buscar en el vocabulario"
         />
-        <select
-          value={tipoFilter ?? ""}
-          onChange={(e) => onTipoFilterChange(e.target.value || null)}
-          aria-label={copy.tipoFilterLabel}
-          className="h-8 rounded-lg border border-input bg-transparent px-2.5 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+        <CategoryFilter
+          allCategorias={allCategorias}
+          selected={selectedCategorias}
+          onToggle={onToggleCategoria}
+          onClear={onClearCategorias}
+          label={copy.categoriasLabel}
+          clearLabel={copy.categoriasClear}
+        />
+        <Select
+          value={tipoFilter ?? "all"}
+          onValueChange={(value) => onTipoFilterChange(value === "all" ? null : value)}
         >
-          <option value="">{copy.tipoFilterAll}</option>
-          {allTipos.map((tipo) => (
-            <option key={tipo} value={tipo}>
-              {tipo}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger aria-label={copy.tipoFilterLabel} className="rounded-full">
+            <SelectValue placeholder={copy.tipoFilterAll}>
+              {(value: string) => (value === "all" ? copy.tipoFilterAll : value)}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">{copy.tipoFilterAll}</SelectItem>
+            {allTipos.map((tipo) => (
+              <SelectItem key={tipo} value={tipo}>
+                {tipo}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <button
           type="button"
           onClick={onToggleFavoritesOnly}
@@ -77,28 +99,6 @@ export function VocabControls({
             {copy.clearFilters}
           </Button>
         )}
-      </div>
-      <div className="flex flex-wrap gap-2">
-        {allCategorias.map((categoria) => {
-          const isSelected = selectedCategorias.has(categoria);
-          return (
-            <button
-              key={categoria}
-              type="button"
-              onClick={() => onToggleCategoria(categoria)}
-              aria-pressed={isSelected}
-              className={cn(
-                "rounded-full transition-transform",
-                isSelected ? "scale-105 ring-1 ring-border-strong" : "hover:scale-105",
-              )}
-            >
-              <CategoryBadge
-                categoria={categoria}
-                active={selectedCategorias.size === 0 || isSelected}
-              />
-            </button>
-          );
-        })}
       </div>
     </div>
   );

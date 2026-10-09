@@ -6,6 +6,8 @@ export interface Copy {
   searchPlaceholder: string;
   favoritesOnly: string;
   clearFilters: string;
+  categoriasLabel: string;
+  categoriasClear: string;
   tipoFilterLabel: string;
   tipoFilterAll: string;
   countLabel: (shown: number, total: number) => string;
@@ -40,6 +42,8 @@ export const COPY: Record<Locale, Copy> = {
     searchPlaceholder: "Busca una palabra o su significado…",
     favoritesOnly: "Solo favoritos",
     clearFilters: "Limpiar filtros",
+    categoriasLabel: "Categorías",
+    categoriasClear: "Limpiar",
     tipoFilterLabel: "Tipo gramatical",
     tipoFilterAll: "Todos los tipos",
     countLabel: (shown, total) => `${shown} de ${total} palabras`,
@@ -71,6 +75,8 @@ export const COPY: Record<Locale, Copy> = {
     searchPlaceholder: "Busca una palabra o su significado…",
     favoritesOnly: "Solo favoritos",
     clearFilters: "Quitar filtros",
+    categoriasLabel: "Categorías",
+    categoriasClear: "Quitar",
     tipoFilterLabel: "Tipo gramatical",
     tipoFilterAll: "Todos los tipos",
     countLabel: (shown, total) => `${shown} de ${total} palabras`,
@@ -102,6 +108,8 @@ export const COPY: Record<Locale, Copy> = {
     searchPlaceholder: "Busca una palabra o su significado…",
     favoritesOnly: "Solo favoritos",
     clearFilters: "Limpiar filtros",
+    categoriasLabel: "Categorías",
+    categoriasClear: "Limpiar",
     tipoFilterLabel: "Tipo gramatical",
     tipoFilterAll: "Todos los tipos",
     countLabel: (shown, total) => `${shown} de ${total} palabras`,

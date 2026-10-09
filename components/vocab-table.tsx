@@ -8,12 +8,13 @@ import { cn } from "@/lib/utils";
 import type { Copy } from "@/lib/copy";
 import type { VocabEntry } from "@/lib/types";
 
-export type SortColumn = "slang_es" | "slang_cl" | "definicion";
+export type SortColumn = "slang_es" | "slang_cl" | "tipo_gramatical" | "definicion";
 export type SortState = { column: SortColumn; direction: "asc" | "desc" } | null;
 
 const COLUMNS: { id: SortColumn; label: string; icon?: ReactNode }[] = [
   { id: "slang_es", label: "Slang español", icon: <FlagES /> },
   { id: "slang_cl", label: "Slang chileno", icon: <FlagCL /> },
+  { id: "tipo_gramatical", label: "Tipo" },
   { id: "definicion", label: "Definición en castellano neutral" },
 ];
 
@@ -211,13 +212,11 @@ export function VocabTable({
                   >
                     <SlangCell value={entry.slang_cl} sinEquivalente={copy.sinEquivalente} />
                   </td>
+                  <td className="px-4 py-3 text-muted-foreground italic">
+                    {entry.tipo_gramatical}
+                  </td>
                   <td className="px-4 py-3">
-                    <p>
-                      <span className="mr-1.5 text-xs text-muted-foreground/70 italic">
-                        {entry.tipo_gramatical}
-                      </span>
-                      {entry.definicion}
-                    </p>
+                    <p>{entry.definicion}</p>
                     <div className="mt-1.5 flex flex-wrap gap-1">
                       <CategoryBadge categoria={entry.categoria} />
                     </div>
@@ -286,12 +285,12 @@ export function VocabTable({
                   copy={copy}
                 />
               </div>
-              <p className="mt-2 text-sm text-muted-foreground">
-                <span className="mr-1.5 text-xs italic">{entry.tipo_gramatical}</span>
-                {entry.definicion}
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1">
+              <p className="mt-2 text-sm text-muted-foreground">{entry.definicion}</p>
+              <div className="mt-2 flex flex-wrap items-center gap-2">
                 <CategoryBadge categoria={entry.categoria} />
+                <span className="text-xs text-muted-foreground/70 italic">
+                  {entry.tipo_gramatical}
+                </span>
               </div>
             </div>
           );
