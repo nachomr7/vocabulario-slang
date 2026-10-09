@@ -37,6 +37,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# session/agent-local artifacts
+.claude/scheduled_tasks.lock
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

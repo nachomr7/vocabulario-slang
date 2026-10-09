@@ -8,13 +8,19 @@ import { cn } from "@/lib/utils";
 import type { Copy } from "@/lib/copy";
 import type { VocabEntry } from "@/lib/types";
 
-export type SortColumn = "slang_es" | "slang_cl" | "tipo_gramatical" | "definicion";
+export type SortColumn =
+  | "slang_es"
+  | "slang_cl"
+  | "tipo_gramatical"
+  | "categoria"
+  | "definicion";
 export type SortState = { column: SortColumn; direction: "asc" | "desc" } | null;
 
 const COLUMNS: { id: SortColumn; label: string; icon?: ReactNode }[] = [
   { id: "slang_es", label: "Slang español", icon: <FlagES /> },
   { id: "slang_cl", label: "Slang chileno", icon: <FlagCL /> },
   { id: "tipo_gramatical", label: "Tipo" },
+  { id: "categoria", label: "Categoría" },
   { id: "definicion", label: "Definición en castellano neutral" },
 ];
 
@@ -216,11 +222,9 @@ export function VocabTable({
                     {entry.tipo_gramatical}
                   </td>
                   <td className="px-4 py-3">
-                    <p>{entry.definicion}</p>
-                    <div className="mt-1.5 flex flex-wrap gap-1">
-                      <CategoryBadge categoria={entry.categoria} />
-                    </div>
+                    <CategoryBadge categoria={entry.categoria} />
                   </td>
+                  <td className="px-4 py-3">{entry.definicion}</td>
                   <td className="px-4 py-3">
                     <RowActions
                       entry={entry}

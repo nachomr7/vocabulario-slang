@@ -90,7 +90,8 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
 
   return (
     <div className="flex flex-col">
-      <header className="flex flex-col items-center gap-3 border-b border-border pb-4 sm:flex-row sm:justify-end">
+      <header className="flex flex-col items-center gap-3 border-b border-border pb-4 sm:flex-row sm:justify-between">
+        <SuggestWordDialog copy={copy} />
         <div className="flex items-center gap-3">
           <CountryToggle country={country} onChange={setCountry} />
           <ThemeToggle />
@@ -113,9 +114,6 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
           <p className="max-w-xl text-balance text-muted-foreground">
             {copy.subtitle}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <SuggestWordDialog copy={copy} />
-          </div>
         </section>
 
         <section className="flex flex-col gap-4">

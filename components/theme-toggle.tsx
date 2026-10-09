@@ -16,14 +16,13 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
+      aria-pressed={isDark}
       className={cn(
-        "inline-flex size-8 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:text-foreground",
+        "inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
       )}
     >
-      {mounted && (
-        <span aria-hidden>{isDark ? "☀️" : "🌙"}</span>
-      )}
+      <span aria-hidden>{mounted ? (isDark ? "☀️" : "🌙") : null}</span>
+      {mounted ? (isDark ? "Modo claro" : "Modo oscuro") : "Tema"}
     </button>
   );
 }
