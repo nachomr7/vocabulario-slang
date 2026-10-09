@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Vocabulario Slang 🇪🇸🇨🇱 — España vs Chile
 
-## Getting Started
+Landing con una tabla filtrable/ordenable de coloquialismos entre España y
+Chile. Next.js (App Router) + Tailwind + shadcn/ui, con el contenido servido
+desde Supabase.
 
-First, run the development server:
+## Setup
+
+### 1. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 2. Crear el proyecto de Supabase
+
+1. Creá un proyecto en [supabase.com](https://supabase.com).
+2. En el **SQL Editor**, corré en orden:
+   - `supabase/migrations/0001_vocabulario.sql`
+   - `supabase/migrations/0002_suggestions.sql`
+   - `supabase/seed.sql` (dataset de ejemplo, opcional pero recomendado para
+     probar la UI antes de cargar el contenido real)
+3. En **Settings > API**, copiá la `Project URL` y la `anon public` key.
+
+### 3. Variables de entorno
+
+Copiá `.env.example` a `.env.local` y completá los valores de Supabase:
+
+```bash
+cp .env.example .env.local
+```
+
+Sin estas variables, la página funciona igual mostrando un dataset de
+ejemplo local (ver `lib/sample-data.ts`) para poder previsualizar la UI.
+
+### 4. Correr en local
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrí [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Cargar el contenido real
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El vocabulario vive en la tabla `vocabulario` de Supabase — no hace falta
+tocar código para agregar, editar o borrar palabras:
 
-## Learn More
+- Vía dashboard: **Table Editor > vocabulario**.
+- Vía SQL: insertando filas con el mismo formato que `supabase/seed.sql`
+  (`slang_es` y `slang_cl` son nullable — dejalo en `null` cuando el
+  coloquialismo no tiene equivalente directo del otro lado).
 
-To learn more about Next.js, take a look at the following resources:
+Los cambios se reflejan en la página en un máximo de 60 segundos (ISR) sin
+necesidad de redeploy.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Las sugerencias que manda la gente desde el botón "Sugerir una palabra"
+llegan a la tabla `suggestions` con `status = 'pending'`. Para aprobar una,
+copiá sus datos a una fila nueva en `vocabulario` (o armá una función/trigger
+que lo automatice más adelante).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy en Vercel
 
-## Deploy on Vercel
+1. Pusheá el repo a GitHub.
+2. Importalo en [vercel.com/new](https://vercel.com/new).
+3. Cargá las mismas variables de `.env.local` en **Settings > Environment
+   Variables** del proyecto en Vercel.
+4. Deploy.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Estructura relevante
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/page.tsx` — trae el vocabulario desde Supabase (o el fallback local)
+  y renderiza la landing.
+- `components/vocab-explorer.tsx` — estado de búsqueda/filtros/orden/país.
+- `components/vocab-table.tsx` — tabla (desktop) / tarjetas (mobile).
+- `components/suggest-word-dialog.tsx` — formulario de sugerencias.
+- `hooks/use-favorites.ts`, `hooks/use-country.ts` — preferencias en
+  localStorage.
+- `supabase/migrations/`, `supabase/seed.sql` — schema y dataset de ejemplo.
