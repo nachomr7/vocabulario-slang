@@ -10,7 +10,10 @@ export interface Copy {
   categoriasClear: string;
   tipoFilterLabel: string;
   tipoFilterAll: string;
-  countLabel: (shown: number, total: number) => string;
+  rangeLabel: (from: number, to: number, total: number) => string;
+  prevPage: string;
+  nextPage: string;
+  pageLabel: (page: number, pageCount: number) => string;
   emptyState: string;
   sinEquivalente: string;
   suggestButton: string;
@@ -46,7 +49,10 @@ export const COPY: Record<Locale, Copy> = {
     categoriasClear: "Limpiar",
     tipoFilterLabel: "Tipo gramatical",
     tipoFilterAll: "Todos los tipos",
-    countLabel: (shown, total) => `${shown} de ${total} palabras`,
+    rangeLabel: (from, to, total) => `${from}–${to} de ${total} palabras`,
+    prevPage: "Anterior",
+    nextPage: "Siguiente",
+    pageLabel: (page, pageCount) => `Página ${page} de ${pageCount}`,
     emptyState:
       "No encontramos ninguna palabra con esos filtros. Prueba con otra búsqueda o limpia los filtros para ver todo el listado.",
     sinEquivalente: "sin equivalente",
@@ -79,7 +85,10 @@ export const COPY: Record<Locale, Copy> = {
     categoriasClear: "Quitar",
     tipoFilterLabel: "Tipo gramatical",
     tipoFilterAll: "Todos los tipos",
-    countLabel: (shown, total) => `${shown} de ${total} palabras`,
+    rangeLabel: (from, to, total) => `${from}–${to} de ${total} palabras`,
+    prevPage: "Anterior",
+    nextPage: "Siguiente",
+    pageLabel: (page, pageCount) => `Página ${page} de ${pageCount}`,
     emptyState:
       "No hemos encontrado ninguna palabra con esos filtros. Prueba con otra búsqueda o quita los filtros para ver todo el listado.",
     sinEquivalente: "sin equivalente",
@@ -112,7 +121,10 @@ export const COPY: Record<Locale, Copy> = {
     categoriasClear: "Limpiar",
     tipoFilterLabel: "Tipo gramatical",
     tipoFilterAll: "Todos los tipos",
-    countLabel: (shown, total) => `${shown} de ${total} palabras`,
+    rangeLabel: (from, to, total) => `${from}–${to} de ${total} palabras`,
+    prevPage: "Anterior",
+    nextPage: "Siguiente",
+    pageLabel: (page, pageCount) => `Página ${page} de ${pageCount}`,
     emptyState:
       "No encontramos ninguna palabra con esos filtros. Prueba con otra búsqueda o limpia los filtros para ver todo el listado.",
     sinEquivalente: "sin equivalente",

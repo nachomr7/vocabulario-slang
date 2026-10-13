@@ -167,7 +167,7 @@ export function VocabTable({
               {COLUMNS.map((column) => {
                 const direction = sort?.column === column.id ? sort.direction : null;
                 return (
-                  <th key={column.id} scope="col" className="px-4 py-3 text-left">
+                  <th key={column.id} scope="col" className="px-3 py-1.5 text-left">
                     <button
                       type="button"
                       onClick={() => handleHeaderClick(column.id)}
@@ -182,7 +182,7 @@ export function VocabTable({
                   </th>
                 );
               })}
-              <th scope="col" className="px-4 py-3 text-left">
+              <th scope="col" className="px-3 py-1.5 text-left">
                 <span className="sr-only">Acciones</span>
               </th>
             </tr>
@@ -204,7 +204,7 @@ export function VocabTable({
                 >
                   <td
                     className={cn(
-                      "px-4 py-3",
+                      "px-3 py-1.5",
                       highlightCountry === "es" && "bg-es-soft/70",
                     )}
                   >
@@ -212,20 +212,20 @@ export function VocabTable({
                   </td>
                   <td
                     className={cn(
-                      "px-4 py-3",
+                      "px-3 py-1.5",
                       highlightCountry === "cl" && "bg-cl-soft/70",
                     )}
                   >
                     <SlangCell value={entry.slang_cl} sinEquivalente={copy.sinEquivalente} />
                   </td>
-                  <td className="px-4 py-3 text-muted-foreground italic">
+                  <td className="px-3 py-1.5 text-muted-foreground italic">
                     {entry.tipo_gramatical}
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-3 py-1.5">
                     <CategoryBadge categoria={entry.categoria} />
                   </td>
-                  <td className="px-4 py-3">{entry.definicion}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-3 py-1.5 leading-snug">{entry.definicion}</td>
+                  <td className="px-3 py-1.5">
                     <RowActions
                       entry={entry}
                       isFavorite={favoritesSet.has(entry.slug)}

@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CountryToggle } from "@/components/country-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { HeroBackground } from "@/components/hero-background";
+import { Pagination } from "@/components/pagination";
 import { VocabControls } from "@/components/vocab-controls";
 import { VocabTable, sortEntries, type SortState } from "@/components/vocab-table";
 import { SuggestWordDialog } from "@/components/suggest-word-dialog";
@@ -11,6 +13,8 @@ import { useCountry } from "@/hooks/use-country";
 import { useFavorites } from "@/hooks/use-favorites";
 import { COPY } from "@/lib/copy";
 import type { VocabEntry } from "@/lib/types";
+
+const PAGE_SIZE = 10;
 
 export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
   const searchParams = useSearchParams();
@@ -36,6 +40,7 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
   const [tipoFilter, setTipoFilter] = useState<string | null>(null);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [sort, setSort] = useState<SortState>(null);
+  const [page, setPage] = useState(1);
 
   const toggleCategoria = (categoria: string) => {
     setSelectedCategorias((prev) => {
@@ -88,66 +93,103 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
     [filteredEntries, sort],
   );
 
+  // Volver a la página 1 cada vez que cambian filtros/orden, para no
+  // quedar mirando una página vacía.
+  useEffect(() => {
+    setPage(1);
+  }, [search, selectedCategorias, tipoFilter, favoritesOnly, sort]);
+
+  // Si llegamos por un link compartido (?word=slug), saltar a la página
+  // donde está esa palabra en vez de dejarla fuera de la primera página.
+  useEffect(() => {
+    if (!highlightSlug) return;
+    const idx = sortedEntries.findIndex((e) => e.slug === highlightSlug);
+    if (idx >= 0) setPage(Math.floor(idx / PAGE_SIZE) + 1);
+  }, [highlightSlug, sortedEntries]);
+
+  const pageCount = Math.max(1, Math.ceil(sortedEntries.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const pagedEntries = useMemo(
+    () => sortedEntries.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [sortedEntries, safePage],
+  );
+
   return (
-    <div className="flex flex-col">
-      <header className="flex flex-col items-center gap-3 border-b border-border pb-4 sm:flex-row sm:justify-between">
-        <SuggestWordDialog copy={copy} />
-        <div className="flex items-center gap-3">
-          <CountryToggle country={country} onChange={setCountry} />
-          <ThemeToggle />
+    <div className="flex flex-col gap-1.5 sm:gap-2">
+      <section className="relative overflow-hidden rounded-lg border border-border">
+        <HeroBackground country={country} />
+        <div className="relative flex flex-col gap-1 px-4 py-1 sm:py-1.5">
+          <div className="flex flex-col items-center gap-1.5 sm:flex-row sm:justify-between">
+            <SuggestWordDialog copy={copy} />
+            <div className="flex items-center gap-3">
+              <CountryToggle country={country} onChange={setCountry} />
+              <ThemeToggle />
+            </div>
+          </div>
+          <div className="flex flex-col items-center gap-1 text-center">
+            <span className="rounded-full border border-border bg-background/60 px-2.5 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted-foreground uppercase">
+              {copy.eyebrow}
+            </span>
+            <h1 className="flex flex-col items-center">
+              <span className="font-display text-xl text-foreground italic sm:text-2xl">
+                Vocabulario
+              </span>
+              <span className="font-heading text-lg font-bold tracking-tight text-foreground uppercase sm:text-xl">
+                España · Chile
+              </span>
+            </h1>
+            <p className="max-w-md text-balance text-xs text-muted-foreground sm:text-sm">
+              {copy.subtitle}
+            </p>
+          </div>
         </div>
-      </header>
+      </section>
 
-      <div className="flex flex-col gap-16 pt-10 sm:gap-20 sm:pt-14">
-        <section className="flex flex-col items-center gap-6 text-center">
-          <span className="rounded-full border border-border px-3 py-1 text-xs font-medium tracking-wide text-muted-foreground uppercase">
-            {copy.eyebrow}
-          </span>
-          <h1 className="flex flex-col items-center">
-            <span className="font-display text-4xl text-foreground italic sm:text-5xl">
-              Vocabulario
-            </span>
-            <span className="font-heading text-3xl font-bold tracking-tight text-foreground uppercase sm:text-4xl">
-              España · Chile
-            </span>
-          </h1>
-          <p className="max-w-xl text-balance text-muted-foreground">
-            {copy.subtitle}
-          </p>
-        </section>
-
-        <section className="flex flex-col gap-4">
-          <VocabControls
-            copy={copy}
-            search={search}
-            onSearchChange={setSearch}
-            allCategorias={allCategorias}
-            selectedCategorias={selectedCategorias}
-            onToggleCategoria={toggleCategoria}
-            onClearCategorias={() => setSelectedCategorias(new Set())}
-            allTipos={allTipos}
-            tipoFilter={tipoFilter}
-            onTipoFilterChange={setTipoFilter}
-            favoritesOnly={favoritesOnly}
-            onToggleFavoritesOnly={() => setFavoritesOnly((v) => !v)}
-            onClear={clearFilters}
-            hasActiveFilters={hasActiveFilters}
-          />
-          <p className="text-sm text-muted-foreground">
-            {copy.countLabel(filteredEntries.length, entries.length)}
-          </p>
-          <VocabTable
-            copy={copy}
-            data={sortedEntries}
-            sort={sort}
-            onSortChange={setSort}
-            favoritesSet={favoritesSet}
-            onToggleFavorite={toggleFavorite}
-            highlightSlug={highlightSlug}
-            highlightCountry={country}
-          />
-        </section>
-      </div>
+      <section className="flex flex-col gap-1.5">
+        <VocabControls
+          copy={copy}
+          search={search}
+          onSearchChange={setSearch}
+          allCategorias={allCategorias}
+          selectedCategorias={selectedCategorias}
+          onToggleCategoria={toggleCategoria}
+          onClearCategorias={() => setSelectedCategorias(new Set())}
+          allTipos={allTipos}
+          tipoFilter={tipoFilter}
+          onTipoFilterChange={setTipoFilter}
+          favoritesOnly={favoritesOnly}
+          onToggleFavoritesOnly={() => setFavoritesOnly((v) => !v)}
+          onClear={clearFilters}
+          hasActiveFilters={hasActiveFilters}
+        />
+        <p className="text-xs text-muted-foreground">
+          {sortedEntries.length === 0
+            ? copy.rangeLabel(0, 0, entries.length)
+            : copy.rangeLabel(
+                (safePage - 1) * PAGE_SIZE + 1,
+                Math.min(safePage * PAGE_SIZE, sortedEntries.length),
+                entries.length,
+              )}
+        </p>
+        <VocabTable
+          copy={copy}
+          data={pagedEntries}
+          sort={sort}
+          onSortChange={setSort}
+          favoritesSet={favoritesSet}
+          onToggleFavorite={toggleFavorite}
+          highlightSlug={highlightSlug}
+          highlightCountry={country}
+        />
+        <Pagination
+          page={safePage}
+          pageCount={pageCount}
+          onPageChange={setPage}
+          prevLabel={copy.prevPage}
+          nextLabel={copy.nextPage}
+          pageLabel={copy.pageLabel}
+        />
+      </section>
     </div>
   );
 }
