@@ -18,7 +18,7 @@ export function ThemeToggle() {
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-pressed={isDark}
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-border px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
+        "inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
       )}
     >
       <span aria-hidden>{mounted ? (isDark ? "☀️" : "🌙") : null}</span>

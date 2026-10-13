@@ -115,19 +115,20 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
   );
 
   return (
-    <div className="flex flex-col gap-1.5 sm:gap-2">
-      <section className="relative overflow-hidden rounded-lg border border-border">
-        <HeroBackground country={country} />
-        <div className="relative flex flex-col gap-1 px-4 py-1 sm:py-1.5">
-          <div className="flex flex-col items-center gap-1.5 sm:flex-row sm:justify-between">
-            <SuggestWordDialog copy={copy} />
-            <div className="flex items-center gap-3">
-              <CountryToggle country={country} onChange={setCountry} />
-              <ThemeToggle />
-            </div>
+    <>
+      <HeroBackground country={country} />
+      <div className="relative z-10 flex flex-col gap-2 sm:gap-3">
+        <div className="flex flex-col items-center gap-1.5 sm:flex-row sm:justify-between">
+          <SuggestWordDialog copy={copy} />
+          <div className="flex items-center gap-3">
+            <CountryToggle country={country} onChange={setCountry} />
+            <ThemeToggle />
           </div>
-          <div className="flex flex-col items-center gap-1 text-center">
-            <span className="rounded-full border border-border bg-background/60 px-2.5 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted-foreground uppercase">
+        </div>
+
+        <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-background p-4 shadow-lg sm:p-5">
+          <div className="flex flex-col items-center gap-1 pb-1 text-center">
+            <span className="rounded-full border border-border px-2.5 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted-foreground uppercase">
               {copy.eyebrow}
             </span>
             <h1 className="flex flex-col items-center">
@@ -142,54 +143,52 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
               {copy.subtitle}
             </p>
           </div>
-        </div>
-      </section>
 
-      <section className="flex flex-col gap-1.5">
-        <VocabControls
-          copy={copy}
-          search={search}
-          onSearchChange={setSearch}
-          allCategorias={allCategorias}
-          selectedCategorias={selectedCategorias}
-          onToggleCategoria={toggleCategoria}
-          onClearCategorias={() => setSelectedCategorias(new Set())}
-          allTipos={allTipos}
-          tipoFilter={tipoFilter}
-          onTipoFilterChange={setTipoFilter}
-          favoritesOnly={favoritesOnly}
-          onToggleFavoritesOnly={() => setFavoritesOnly((v) => !v)}
-          onClear={clearFilters}
-          hasActiveFilters={hasActiveFilters}
-        />
-        <p className="text-xs text-muted-foreground">
-          {sortedEntries.length === 0
-            ? copy.rangeLabel(0, 0, entries.length)
-            : copy.rangeLabel(
-                (safePage - 1) * PAGE_SIZE + 1,
-                Math.min(safePage * PAGE_SIZE, sortedEntries.length),
-                entries.length,
-              )}
-        </p>
-        <VocabTable
-          copy={copy}
-          data={pagedEntries}
-          sort={sort}
-          onSortChange={setSort}
-          favoritesSet={favoritesSet}
-          onToggleFavorite={toggleFavorite}
-          highlightSlug={highlightSlug}
-          highlightCountry={country}
-        />
-        <Pagination
-          page={safePage}
-          pageCount={pageCount}
-          onPageChange={setPage}
-          prevLabel={copy.prevPage}
-          nextLabel={copy.nextPage}
-          pageLabel={copy.pageLabel}
-        />
-      </section>
-    </div>
+          <VocabControls
+            copy={copy}
+            search={search}
+            onSearchChange={setSearch}
+            allCategorias={allCategorias}
+            selectedCategorias={selectedCategorias}
+            onToggleCategoria={toggleCategoria}
+            onClearCategorias={() => setSelectedCategorias(new Set())}
+            allTipos={allTipos}
+            tipoFilter={tipoFilter}
+            onTipoFilterChange={setTipoFilter}
+            favoritesOnly={favoritesOnly}
+            onToggleFavoritesOnly={() => setFavoritesOnly((v) => !v)}
+            onClear={clearFilters}
+            hasActiveFilters={hasActiveFilters}
+          />
+          <p className="text-xs text-muted-foreground">
+            {sortedEntries.length === 0
+              ? copy.rangeLabel(0, 0, entries.length)
+              : copy.rangeLabel(
+                  (safePage - 1) * PAGE_SIZE + 1,
+                  Math.min(safePage * PAGE_SIZE, sortedEntries.length),
+                  entries.length,
+                )}
+          </p>
+          <VocabTable
+            copy={copy}
+            data={pagedEntries}
+            sort={sort}
+            onSortChange={setSort}
+            favoritesSet={favoritesSet}
+            onToggleFavorite={toggleFavorite}
+            highlightSlug={highlightSlug}
+            highlightCountry={country}
+          />
+          <Pagination
+            page={safePage}
+            pageCount={pageCount}
+            onPageChange={setPage}
+            prevLabel={copy.prevPage}
+            nextLabel={copy.nextPage}
+            pageLabel={copy.pageLabel}
+          />
+        </div>
+      </div>
+    </>
   );
 }

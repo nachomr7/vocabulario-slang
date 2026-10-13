@@ -57,7 +57,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${plexSans.variable} ${geistMono.variable} ${archivoNarrow.variable} ${playfair.variable} h-full antialiased`}
+      className={`${plexSans.variable} ${geistMono.variable} ${archivoNarrow.variable} ${playfair.variable} h-full bg-background antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
