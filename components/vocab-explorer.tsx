@@ -137,7 +137,7 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-background/75 p-4 shadow-lg backdrop-blur-xl sm:p-5">
+        <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-background/50 p-4 shadow-lg backdrop-blur-xl sm:p-5 dark:bg-background/75">
           <div className="flex flex-col items-center gap-1 pb-1 text-center">
             <span className="rounded-full border border-border px-2.5 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted-foreground uppercase">
               {copy.eyebrow}
