@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { CountryToggle } from "@/components/country-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -40,7 +40,15 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
   const [tipoFilter, setTipoFilter] = useState<string | null>(null);
   const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [sort, setSort] = useState<SortState>(null);
-  const [page, setPage] = useState(1);
+  // Si llegamos por un link compartido (?word=slug), arrancar en la
+  // página donde está esa palabra en vez de dejarla fuera de la primera.
+  // En el primer render no hay filtros aplicados todavía, así que basta
+  // con mirar `entries` tal cual llegan.
+  const [page, setPage] = useState(() => {
+    if (!highlightSlug) return 1;
+    const idx = entries.findIndex((e) => e.slug === highlightSlug);
+    return idx >= 0 ? Math.floor(idx / PAGE_SIZE) + 1 : 1;
+  });
 
   const toggleCategoria = (categoria: string) => {
     setSelectedCategorias((prev) => {
@@ -94,18 +102,21 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
   );
 
   // Volver a la página 1 cada vez que cambian filtros/orden, para no
-  // quedar mirando una página vacía.
-  useEffect(() => {
+  // quedar mirando una página vacía. Se ajusta durante el render (patrón
+  // recomendado por React para "resetear estado cuando cambia otra cosa")
+  // en vez de un efecto, que dispararía un render extra innecesario.
+  const filterKey = JSON.stringify([
+    search,
+    [...selectedCategorias].sort(),
+    tipoFilter,
+    favoritesOnly,
+    sort,
+  ]);
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+  if (filterKey !== prevFilterKey) {
+    setPrevFilterKey(filterKey);
     setPage(1);
-  }, [search, selectedCategorias, tipoFilter, favoritesOnly, sort]);
-
-  // Si llegamos por un link compartido (?word=slug), saltar a la página
-  // donde está esa palabra en vez de dejarla fuera de la primera página.
-  useEffect(() => {
-    if (!highlightSlug) return;
-    const idx = sortedEntries.findIndex((e) => e.slug === highlightSlug);
-    if (idx >= 0) setPage(Math.floor(idx / PAGE_SIZE) + 1);
-  }, [highlightSlug, sortedEntries]);
+  }
 
   const pageCount = Math.max(1, Math.ceil(sortedEntries.length / PAGE_SIZE));
   const safePage = Math.min(page, pageCount);
@@ -126,7 +137,7 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-background p-4 shadow-lg sm:p-5">
+        <div className="flex flex-col gap-1.5 rounded-lg border border-border bg-background/75 p-4 shadow-lg backdrop-blur-xl sm:p-5">
           <div className="flex flex-col items-center gap-1 pb-1 text-center">
             <span className="rounded-full border border-border px-2.5 py-0.5 text-[0.65rem] font-medium tracking-wide text-muted-foreground uppercase">
               {copy.eyebrow}

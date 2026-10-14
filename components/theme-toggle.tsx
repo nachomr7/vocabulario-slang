@@ -1,14 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 
+const subscribeNoop = () => () => {};
+
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  // Next.js renderiza en el servidor sin saber el tema; esto evita el
+  // mismatch de hidratación sin disparar un setState dentro de un efecto.
+  const mounted = useSyncExternalStore(
+    subscribeNoop,
+    () => true,
+    () => false,
+  );
 
   const isDark = mounted && resolvedTheme === "dark";
 
