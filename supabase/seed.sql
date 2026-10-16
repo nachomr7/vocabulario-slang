@@ -426,3 +426,12 @@ insert into vocabulario (slug, slang_es, slang_cl, definicion, categoria, tipo_g
   ('pringar', 'pringar', null, 'Hacer el trabajo pesado o salir perjudicado; también mancharse.', 'Trabajo y estudio', 'verbo'),
   ('hacer-el-canelo', 'hacer el canelo', 'hacer el leso', 'Hacer el tonto o dejarse engañar.', 'Personas y tipos sociales', 'expresión verbal')
 on conflict (slug) do nothing;
+
+-- Palabras sumadas tras la revisión del listado original (ver conversación).
+insert into vocabulario (slug, slang_es, slang_cl, definicion, categoria, tipo_gramatical) values
+  ('cayetano', 'cayetano', null, 'Término coloquial, a veces jocoso, para referirse a una persona pija o de clase alta.', 'Personas y tipos sociales', 'sustantivo'),
+  ('tocho-adj', 'tocho', null, 'Muy grande, enorme o importante.', 'Cantidad, tiempo e intensidad', 'adjetivo'),
+  ('camiseta', 'camiseta', 'polera', 'Prenda de vestir de tela que cubre el torso, generalmente de manga corta.', 'Ropa, vivienda y objetos', 'sustantivo'),
+  ('guachaca', null, 'guachaca', 'De estilo popular y sencillo, propio de la cultura tradicional y humilde chilena; a veces reivindicado con orgullo.', 'Personas y tipos sociales', 'adjetivo'),
+  ('guaripola', null, 'guaripola', 'Persona que encabeza un desfile escolar o militar bailando y lanzando al aire una vara decorada, al ritmo de la banda.', 'Personas y tipos sociales', 'sustantivo')
+on conflict (slug) do nothing;

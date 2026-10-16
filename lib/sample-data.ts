@@ -430,4 +430,10 @@ export const SAMPLE_VOCABULARIO: VocabEntry[] = [
   { id: "421", slug: "cachos-cuernos", slang_es: "cachos (cuernos, juv.)", slang_cl: "cacho (problema), cachos (cuernos)", definicion: "En Chile 'cacho' es un problema o carga; 'cachos', como en España, también son cuernos.", categoria: "Falsos amigos", tipo_gramatical: "sustantivo" },
   { id: "422", slug: "pringar", slang_es: "pringar", slang_cl: null, definicion: "Hacer el trabajo pesado o salir perjudicado; también mancharse.", categoria: "Trabajo y estudio", tipo_gramatical: "verbo" },
   { id: "423", slug: "hacer-el-canelo", slang_es: "hacer el canelo", slang_cl: "hacer el leso", definicion: "Hacer el tonto o dejarse engañar.", categoria: "Personas y tipos sociales", tipo_gramatical: "expresión verbal" },
+  // Sumadas tras la revisión del listado original (ver conversación).
+  { id: "424", slug: "cayetano", slang_es: "cayetano", slang_cl: null, definicion: "Término coloquial, a veces jocoso, para referirse a una persona pija o de clase alta.", categoria: "Personas y tipos sociales", tipo_gramatical: "sustantivo" },
+  { id: "425", slug: "tocho-adj", slang_es: "tocho", slang_cl: null, definicion: "Muy grande, enorme o importante.", categoria: "Cantidad, tiempo e intensidad", tipo_gramatical: "adjetivo" },
+  { id: "426", slug: "camiseta", slang_es: "camiseta", slang_cl: "polera", definicion: "Prenda de vestir de tela que cubre el torso, generalmente de manga corta.", categoria: "Ropa, vivienda y objetos", tipo_gramatical: "sustantivo" },
+  { id: "427", slug: "guachaca", slang_es: null, slang_cl: "guachaca", definicion: "De estilo popular y sencillo, propio de la cultura tradicional y humilde chilena; a veces reivindicado con orgullo.", categoria: "Personas y tipos sociales", tipo_gramatical: "adjetivo" },
+  { id: "428", slug: "guaripola", slang_es: null, slang_cl: "guaripola", definicion: "Persona que encabeza un desfile escolar o militar bailando y lanzando al aire una vara decorada, al ritmo de la banda.", categoria: "Personas y tipos sociales", tipo_gramatical: "sustantivo" },
 ];
