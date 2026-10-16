@@ -7,9 +7,13 @@ import { type Country } from "@/hooks/use-country";
 export function CountryToggle({
   country,
   onChange,
+  labelEs = "Soy de España",
+  labelCl = "Soy de Chile",
 }: {
   country: Country | null;
   onChange: (country: Country | null) => void;
+  labelEs?: string;
+  labelCl?: string;
 }) {
   return (
     <div className="inline-flex items-center gap-1 rounded-full border border-border bg-card p-1 text-sm">
@@ -24,7 +28,7 @@ export function CountryToggle({
             : "border-transparent text-muted-foreground hover:text-foreground",
         )}
       >
-        <FlagES /> Soy de España
+        <FlagES /> {labelEs}
       </button>
       <button
         type="button"
@@ -37,7 +41,7 @@ export function CountryToggle({
             : "border-transparent text-muted-foreground hover:text-foreground",
         )}
       >
-        <FlagCL /> Soy de Chile
+        <FlagCL /> {labelCl}
       </button>
     </div>
   );

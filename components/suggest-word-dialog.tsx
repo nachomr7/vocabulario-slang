@@ -14,13 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { CountryToggle } from "@/components/country-toggle";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import type { Copy } from "@/lib/copy";
 import type { Country } from "@/hooks/use-country";
@@ -28,7 +22,7 @@ import type { Country } from "@/hooks/use-country";
 export function SuggestWordDialog({ copy }: { copy: Copy }) {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [country, setCountry] = useState<Country | "">("");
+  const [country, setCountry] = useState<Country | null>(null);
   const [word, setWord] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,7 +51,7 @@ export function SuggestWordDialog({ copy }: { copy: Copy }) {
       }
 
       toast.success(copy.toastSubmitSuccess);
-      setCountry("");
+      setCountry(null);
       setWord("");
       setOpen(false);
     } catch {
@@ -82,27 +76,13 @@ export function SuggestWordDialog({ copy }: { copy: Copy }) {
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-1.5">
-              <Label htmlFor="country">{copy.labelCountry}</Label>
-              <Select
-                value={country}
-                onValueChange={(value) => setCountry(value as Country)}
-              >
-                <SelectTrigger id="country" className="w-full">
-                  <SelectValue placeholder="—">
-                    {(value: Country | "") =>
-                      value === "es"
-                        ? `🇪🇸 ${copy.optionEs}`
-                        : value === "cl"
-                          ? `🇨🇱 ${copy.optionCl}`
-                          : "—"
-                    }
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="es">🇪🇸 {copy.optionEs}</SelectItem>
-                  <SelectItem value="cl">🇨🇱 {copy.optionCl}</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label>{copy.labelCountry}</Label>
+              <CountryToggle
+                country={country}
+                onChange={setCountry}
+                labelEs={copy.optionEs}
+                labelCl={copy.optionCl}
+              />
             </div>
             <div className="grid gap-1.5">
               <Label htmlFor="word">{copy.labelWord}</Label>
