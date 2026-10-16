@@ -14,36 +14,32 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import type { Copy } from "@/lib/copy";
-
-const initialForm = {
-  slang_es: "",
-  slang_cl: "",
-  definicion: "",
-  categoria: "",
-  email: "",
-};
+import type { Country } from "@/hooks/use-country";
 
 export function SuggestWordDialog({ copy }: { copy: Copy }) {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [form, setForm] = useState(initialForm);
-
-  const update = (field: keyof typeof initialForm) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
+  const [country, setCountry] = useState<Country | "">("");
+  const [word, setWord] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!form.slang_es.trim() && !form.slang_cl.trim()) {
-      toast.error(copy.toastMissingWord);
+    if (!country) {
+      toast.error(copy.toastMissingCountry);
       return;
     }
-    if (!form.definicion.trim()) {
-      toast.error(copy.toastMissingDef);
+    if (!word.trim()) {
+      toast.error(copy.toastMissingWord);
       return;
     }
 
@@ -51,11 +47,8 @@ export function SuggestWordDialog({ copy }: { copy: Copy }) {
     try {
       const supabase = createBrowserSupabaseClient();
       const { error } = await supabase.from("suggestions").insert({
-        slang_es: form.slang_es.trim() || null,
-        slang_cl: form.slang_cl.trim() || null,
-        definicion: form.definicion.trim(),
-        categoria: form.categoria.trim() || null,
-        email: form.email.trim() || null,
+        slang_es: country === "es" ? word.trim() : null,
+        slang_cl: country === "cl" ? word.trim() : null,
       });
 
       if (error) {
@@ -64,7 +57,8 @@ export function SuggestWordDialog({ copy }: { copy: Copy }) {
       }
 
       toast.success(copy.toastSubmitSuccess);
-      setForm(initialForm);
+      setCountry("");
+      setWord("");
       setOpen(false);
     } catch {
       toast.error(copy.toastSubmitError);
@@ -87,53 +81,36 @@ export function SuggestWordDialog({ copy }: { copy: Copy }) {
             <DialogDescription>{copy.dialogDescription}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="grid gap-1.5">
-                <Label htmlFor="slang_es">{copy.labelSlangEs}</Label>
-                <Input
-                  id="slang_es"
-                  value={form.slang_es}
-                  onChange={update("slang_es")}
-                  placeholder="ej: guay"
-                />
-              </div>
-              <div className="grid gap-1.5">
-                <Label htmlFor="slang_cl">{copy.labelSlangCl}</Label>
-                <Input
-                  id="slang_cl"
-                  value={form.slang_cl}
-                  onChange={update("slang_cl")}
-                  placeholder="ej: bacán"
-                />
-              </div>
+            <div className="grid gap-1.5">
+              <Label htmlFor="country">{copy.labelCountry}</Label>
+              <Select
+                value={country}
+                onValueChange={(value) => setCountry(value as Country)}
+              >
+                <SelectTrigger id="country" className="w-full">
+                  <SelectValue placeholder="—">
+                    {(value: Country | "") =>
+                      value === "es"
+                        ? `🇪🇸 ${copy.optionEs}`
+                        : value === "cl"
+                          ? `🇨🇱 ${copy.optionCl}`
+                          : "—"
+                    }
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="es">🇪🇸 {copy.optionEs}</SelectItem>
+                  <SelectItem value="cl">🇨🇱 {copy.optionCl}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="definicion">{copy.labelDefinicion}</Label>
-              <Textarea
-                id="definicion"
-                value={form.definicion}
-                onChange={update("definicion")}
-                placeholder="¿Qué significa?"
-                required
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="categoria">{copy.labelCategoria}</Label>
+              <Label htmlFor="word">{copy.labelWord}</Label>
               <Input
-                id="categoria"
-                value={form.categoria}
-                onChange={update("categoria")}
-                placeholder="ej: comida_bebida, dinero, fiesta…"
-              />
-            </div>
-            <div className="grid gap-1.5">
-              <Label htmlFor="email">{copy.labelEmail}</Label>
-              <Input
-                id="email"
-                type="email"
-                value={form.email}
-                onChange={update("email")}
-                placeholder="tú@ejemplo.com"
+                id="word"
+                value={word}
+                onChange={(e) => setWord(e.target.value)}
+                placeholder="ej: guay, bacán…"
               />
             </div>
           </div>

@@ -14,11 +14,3 @@ export interface VocabEntry {
   tipo_gramatical: TipoGramatical;
   created_at?: string;
 }
-
-export interface SuggestionInput {
-  slang_es: string;
-  slang_cl: string;
-  definicion: string;
-  categoria: string;
-  email: string;
-}

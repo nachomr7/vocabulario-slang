@@ -19,15 +19,14 @@ export interface Copy {
   suggestButton: string;
   dialogTitle: string;
   dialogDescription: string;
-  labelSlangEs: string;
-  labelSlangCl: string;
-  labelDefinicion: string;
-  labelCategoria: string;
-  labelEmail: string;
+  labelCountry: string;
+  optionEs: string;
+  optionCl: string;
+  labelWord: string;
   submit: string;
   submitting: string;
+  toastMissingCountry: string;
   toastMissingWord: string;
-  toastMissingDef: string;
   toastSubmitError: string;
   toastSubmitSuccess: string;
   toastShareSuccess: string;
@@ -59,16 +58,15 @@ export const COPY: Record<Locale, Copy> = {
     suggestButton: "Sugerir una palabra",
     dialogTitle: "Sugerir una palabra",
     dialogDescription:
-      "¿Conoces un coloquialismo que falta? Cuéntanoslo y lo revisamos para sumarlo al listado.",
-    labelSlangEs: "Slang en España",
-    labelSlangCl: "Slang en Chile",
-    labelDefinicion: "Definición en castellano neutral",
-    labelCategoria: "Categoría (opcional)",
-    labelEmail: "Tu email (opcional, por si queremos preguntarte algo)",
+      "¿Conoces un coloquialismo que falta? Dinos de qué país es y cuál es la palabra; nosotros completamos el resto.",
+    labelCountry: "¿Es de España o de Chile?",
+    optionEs: "España",
+    optionCl: "Chile",
+    labelWord: "¿Cuál es la palabra?",
     submit: "Enviar sugerencia",
     submitting: "Enviando…",
-    toastMissingWord: "Cuéntanos al menos una de las dos palabras (España o Chile).",
-    toastMissingDef: "Nos falta la definición.",
+    toastMissingCountry: "Elige si la palabra es de España o de Chile.",
+    toastMissingWord: "Escribe la palabra.",
     toastSubmitError: "No pudimos enviar tu sugerencia. Prueba de nuevo más tarde.",
     toastSubmitSuccess: "¡Gracias! Vamos a revisar tu sugerencia.",
     toastShareSuccess: "Enlace copiado al portapapeles",
@@ -95,16 +93,15 @@ export const COPY: Record<Locale, Copy> = {
     suggestButton: "Proponer una palabra",
     dialogTitle: "Proponer una palabra",
     dialogDescription:
-      "¿Te sabes un coloquialismo que falta? Cuéntanoslo y lo revisamos para añadirlo al listado.",
-    labelSlangEs: "Slang en España",
-    labelSlangCl: "Slang en Chile",
-    labelDefinicion: "Definición en castellano neutral",
-    labelCategoria: "Categoría (opcional)",
-    labelEmail: "Tu email (opcional, por si te queremos preguntar algo)",
+      "¿Te sabes un coloquialismo que falta? Dinos de qué país es y cuál es la palabra; nosotros completamos el resto.",
+    labelCountry: "¿Es de España o de Chile?",
+    optionEs: "España",
+    optionCl: "Chile",
+    labelWord: "¿Cuál es la palabra?",
     submit: "Enviar propuesta",
     submitting: "Enviando…",
-    toastMissingWord: "Cuéntanos al menos una de las dos palabras (España o Chile).",
-    toastMissingDef: "Nos falta la definición.",
+    toastMissingCountry: "Elige si la palabra es de España o de Chile.",
+    toastMissingWord: "Escribe la palabra.",
     toastSubmitError: "No hemos podido enviar tu propuesta. Prueba de nuevo más tarde.",
     toastSubmitSuccess: "¡Gracias! Le echaremos un vistazo.",
     toastShareSuccess: "Enlace copiado al portapapeles",
@@ -131,16 +128,15 @@ export const COPY: Record<Locale, Copy> = {
     suggestButton: "Sugerir una palabra",
     dialogTitle: "Sugerir una palabra",
     dialogDescription:
-      "¿Cachai alguna palabra que falta? Cuéntanos y la revisamos para sumarla al listado.",
-    labelSlangEs: "Slang en España",
-    labelSlangCl: "Slang en Chile",
-    labelDefinicion: "Definición en castellano neutral",
-    labelCategoria: "Categoría (opcional)",
-    labelEmail: "Tu correo (opcional, por si te queremos preguntar algo)",
+      "¿Cachai alguna palabra que falta? Cuéntanos de qué país es y cuál es la palabra; nosotros completamos el resto.",
+    labelCountry: "¿Es de España o de Chile?",
+    optionEs: "España",
+    optionCl: "Chile",
+    labelWord: "¿Cuál es la palabra?",
     submit: "Enviar sugerencia",
     submitting: "Enviando…",
-    toastMissingWord: "Cuéntanos al menos una de las dos palabras (España o Chile).",
-    toastMissingDef: "Nos falta la definición.",
+    toastMissingCountry: "Elige si la palabra es de España o de Chile.",
+    toastMissingWord: "Escribe la palabra.",
     toastSubmitError: "No pudimos enviar tu sugerencia. Intenta de nuevo más tarde.",
     toastSubmitSuccess: "¡Gracias! La vamos a revisar.",
     toastShareSuccess: "Link copiado",

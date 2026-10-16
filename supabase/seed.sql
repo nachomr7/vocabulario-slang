@@ -435,3 +435,21 @@ insert into vocabulario (slug, slang_es, slang_cl, definicion, categoria, tipo_g
   ('guachaca', null, 'guachaca', 'De estilo popular y sencillo, propio de la cultura tradicional y humilde chilena; a veces reivindicado con orgullo.', 'Personas y tipos sociales', 'adjetivo'),
   ('guaripola', null, 'guaripola', 'Persona que encabeza un desfile escolar o militar bailando y lanzando al aire una vara decorada, al ritmo de la banda.', 'Personas y tipos sociales', 'sustantivo')
 on conflict (slug) do nothing;
+
+-- Segunda tanda de palabras sumadas tras la revisión del listado (ver conversación).
+insert into vocabulario (slug, slang_es, slang_cl, definicion, categoria, tipo_gramatical) values
+  ('postureo', 'postureo', null, 'Comportamiento de aparentar un estilo de vida, una opinión o un estatus que no es real, para quedar bien socialmente o en redes sociales.', 'Personas y tipos sociales', 'sustantivo'),
+  ('petarlo', 'petarlo', 'la rompió, se la come', 'Tener muchísimo éxito o triunfar rotundamente en algo.', 'Valoración y aprobación', 'expresión verbal'),
+  ('no-tener-ni-pajolera-idea', 'no tener ni pajolera idea', 'no cachar ni jota', 'No saber absolutamente nada sobre algo.', 'Muletillas y expresiones', 'expresión verbal'),
+  ('chucaro', null, 'chúcaro, chúcara', 'Arisco, poco sociable o difícil de tratar, como un animal sin domar.', 'Personas y tipos sociales', 'adjetivo'),
+  ('chorrillana', null, 'chorrillana', 'Plato abundante de papas fritas con carne, cebolla y huevo frito.', 'Comida y bebida', 'sustantivo'),
+  ('flashear', null, 'flashear', 'Imaginar o fantasear con algo poco realista; también, sorprenderse mucho.', 'Emociones y estados de ánimo', 'verbo'),
+  ('cachondo-vulg', 'cachondo, cachonda', 'andar caliente', 'Excitado sexualmente (vulgar).', 'Amor y relaciones', 'adjetivo'),
+  ('conducir', 'conducir', 'manejar', 'Guiar o manejar un vehículo.', 'Transporte y objetos cotidianos', 'verbo'),
+  ('zumo', 'zumo', 'jugo', 'Líquido que se extrae de frutas u otros alimentos.', 'Comida y bebida', 'sustantivo'),
+  ('refresco', 'refresco', 'bebida', 'Gaseosa o bebida no alcohólica embotellada. Ojo: en España ''bebida'' es cualquier líquido para beber (incluido el alcohol); en Chile ''bebida'' se usa específicamente para la gaseosa.', 'Falsos amigos', 'sustantivo'),
+  ('zapatillas-de-casa', 'zapatillas (de casa)', null, 'En España, calzado cómodo para estar en casa (salvo que se diga ''zapatillas de deporte''); en Chile ''zapatillas'' son directamente el calzado deportivo.', 'Falsos amigos', 'sustantivo'),
+  ('chamullar', null, 'chamullar, chamullo', 'Hablar con labia para convencer, seducir o salir de un aprieto.', 'Chismes, bromas y mentiras', 'verbo'),
+  ('pelambre', null, 'pelambre', 'Sesión de chismes sobre alguien que no está presente.', 'Chismes, bromas y mentiras', 'sustantivo'),
+  ('tener-mono', 'tener mono', null, 'Sentir el síndrome de abstinencia o una necesidad imperiosa de algo (originalmente de drogas, hoy usado en general, p. ej. ''tengo mono de series'').', 'Fiesta, alcohol y drogas', 'expresión verbal')
+on conflict (slug) do nothing;
