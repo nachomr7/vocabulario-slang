@@ -10,7 +10,6 @@ import { VocabControls } from "@/components/vocab-controls";
 import { VocabTable, sortEntries, type SortState } from "@/components/vocab-table";
 import { SuggestWordDialog } from "@/components/suggest-word-dialog";
 import { useCountry } from "@/hooks/use-country";
-import { useFavorites } from "@/hooks/use-favorites";
 import { COPY } from "@/lib/copy";
 import type { VocabEntry } from "@/lib/types";
 
@@ -21,7 +20,6 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
   const highlightSlug = searchParams.get("word");
 
   const { country, setCountry } = useCountry();
-  const { favoritesSet, toggleFavorite } = useFavorites();
   const copy = COPY[country ?? "neutral"];
 
   const allCategorias = useMemo(
@@ -38,7 +36,6 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
     new Set(),
   );
   const [tipoFilter, setTipoFilter] = useState<string | null>(null);
-  const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [sort, setSort] = useState<SortState>(null);
   // Si llegamos por un link compartido (?word=slug), arrancar en la
   // página donde está esa palabra en vez de dejarla fuera de la primera.
@@ -63,21 +60,15 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
     setSearch("");
     setSelectedCategorias(new Set());
     setTipoFilter(null);
-    setFavoritesOnly(false);
   };
 
   const hasActiveFilters =
-    search.trim() !== "" ||
-    selectedCategorias.size > 0 ||
-    tipoFilter !== null ||
-    favoritesOnly;
+    search.trim() !== "" || selectedCategorias.size > 0 || tipoFilter !== null;
 
   const filteredEntries = useMemo(() => {
     const query = search.trim().toLowerCase();
 
     return entries.filter((entry) => {
-      if (favoritesOnly && !favoritesSet.has(entry.slug)) return false;
-
       if (selectedCategorias.size > 0 && !selectedCategorias.has(entry.categoria)) {
         return false;
       }
@@ -94,7 +85,7 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
 
       return true;
     });
-  }, [entries, search, selectedCategorias, tipoFilter, favoritesOnly, favoritesSet]);
+  }, [entries, search, selectedCategorias, tipoFilter]);
 
   const sortedEntries = useMemo(
     () => sortEntries(filteredEntries, sort),
@@ -109,7 +100,6 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
     search,
     [...selectedCategorias].sort(),
     tipoFilter,
-    favoritesOnly,
     sort,
   ]);
   const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
@@ -166,8 +156,6 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
             allTipos={allTipos}
             tipoFilter={tipoFilter}
             onTipoFilterChange={setTipoFilter}
-            favoritesOnly={favoritesOnly}
-            onToggleFavoritesOnly={() => setFavoritesOnly((v) => !v)}
             onClear={clearFilters}
             hasActiveFilters={hasActiveFilters}
           />
@@ -185,8 +173,6 @@ export function VocabExplorer({ entries }: { entries: VocabEntry[] }) {
             data={pagedEntries}
             sort={sort}
             onSortChange={setSort}
-            favoritesSet={favoritesSet}
-            onToggleFavorite={toggleFavorite}
             highlightSlug={highlightSlug}
             highlightCountry={country}
           />

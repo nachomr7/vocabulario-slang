@@ -4,6 +4,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { toast } from "sonner";
 import { CategoryBadge } from "@/components/category-badge";
 import { FlagES, FlagCL } from "@/components/flags";
+import { SuggestEditDialog } from "@/components/suggest-edit-dialog";
 import { cn } from "@/lib/utils";
 import type { Copy } from "@/lib/copy";
 import type { VocabEntry } from "@/lib/types";
@@ -64,17 +65,7 @@ function SlangCell({
   );
 }
 
-function RowActions({
-  entry,
-  isFavorite,
-  onToggleFavorite,
-  copy,
-}: {
-  entry: VocabEntry;
-  isFavorite: boolean;
-  onToggleFavorite: (slug: string) => void;
-  copy: Copy;
-}) {
+function RowActions({ entry, copy }: { entry: VocabEntry; copy: Copy }) {
   const handleShare = async () => {
     const url = new URL(window.location.href);
     url.search = `?word=${entry.slug}`;
@@ -88,18 +79,7 @@ function RowActions({
 
   return (
     <div className="flex items-center gap-1">
-      <button
-        type="button"
-        onClick={() => onToggleFavorite(entry.slug)}
-        aria-pressed={isFavorite}
-        aria-label={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
-        className={cn(
-          "rounded-full p-1.5 text-lg leading-none transition-transform hover:scale-110",
-          isFavorite ? "text-amber-500" : "text-muted-foreground/50",
-        )}
-      >
-        {isFavorite ? "★" : "☆"}
-      </button>
+      <SuggestEditDialog entry={entry} copy={copy} />
       <button
         type="button"
         onClick={handleShare}
@@ -117,8 +97,6 @@ export function VocabTable({
   data,
   sort,
   onSortChange,
-  favoritesSet,
-  onToggleFavorite,
   highlightSlug,
   highlightCountry,
 }: {
@@ -126,8 +104,6 @@ export function VocabTable({
   data: VocabEntry[];
   sort: SortState;
   onSortChange: (sort: SortState) => void;
-  favoritesSet: Set<string>;
-  onToggleFavorite: (slug: string) => void;
   highlightSlug: string | null;
   highlightCountry: "es" | "cl" | null;
 }) {
@@ -226,12 +202,7 @@ export function VocabTable({
                   </td>
                   <td className="px-3 py-1.5 leading-snug">{entry.definicion}</td>
                   <td className="px-3 py-1.5">
-                    <RowActions
-                      entry={entry}
-                      isFavorite={favoritesSet.has(entry.slug)}
-                      onToggleFavorite={onToggleFavorite}
-                      copy={copy}
-                    />
+                    <RowActions entry={entry} copy={copy} />
                   </td>
                 </tr>
               );
@@ -282,12 +253,7 @@ export function VocabTable({
                     />
                   </div>
                 </div>
-                <RowActions
-                  entry={entry}
-                  isFavorite={favoritesSet.has(entry.slug)}
-                  onToggleFavorite={onToggleFavorite}
-                  copy={copy}
-                />
+                <RowActions entry={entry} copy={copy} />
               </div>
               <p className="mt-2 text-sm text-muted-foreground">{entry.definicion}</p>
               <div className="mt-2 flex flex-wrap items-center gap-2">

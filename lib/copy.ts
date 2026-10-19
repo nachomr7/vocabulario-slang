@@ -4,7 +4,6 @@ export interface Copy {
   eyebrow: string;
   subtitle: string;
   searchPlaceholder: string;
-  favoritesOnly: string;
   clearFilters: string;
   categoriasLabel: string;
   categoriasClear: string;
@@ -31,6 +30,14 @@ export interface Copy {
   toastSubmitSuccess: string;
   toastShareSuccess: string;
   toastShareError: string;
+  editButton: string;
+  editDialogTitle: string;
+  editDialogDescription: string;
+  labelFeedback: string;
+  feedbackPlaceholder: string;
+  submitEdit: string;
+  toastMissingFeedback: string;
+  toastEditSubmitSuccess: string;
 }
 
 // Textos de la interfaz (no del vocabulario en sí) según el país elegido.
@@ -42,7 +49,6 @@ export const COPY: Record<Locale, Copy> = {
     subtitle:
       "Lo que uno dice en España, lo que entienden en Chile (o no). Busca, filtra y descubre los coloquialismos de cada lado del charco.",
     searchPlaceholder: "Busca una palabra o su significado…",
-    favoritesOnly: "Solo favoritos",
     clearFilters: "Limpiar filtros",
     categoriasLabel: "Categorías",
     categoriasClear: "Limpiar",
@@ -71,13 +77,21 @@ export const COPY: Record<Locale, Copy> = {
     toastSubmitSuccess: "¡Gracias! Vamos a revisar tu sugerencia.",
     toastShareSuccess: "Enlace copiado al portapapeles",
     toastShareError: "No se pudo copiar el enlace",
+    editButton: "Sugerir una corrección",
+    editDialogTitle: "Sugerir una corrección",
+    editDialogDescription:
+      "Cuéntanos qué cambiarías de esta palabra (la definición, la categoría, el equivalente del otro país, etc.).",
+    labelFeedback: "¿Qué cambiarías?",
+    feedbackPlaceholder: "Ej: la definición debería decir…",
+    submitEdit: "Enviar corrección",
+    toastMissingFeedback: "Escribe qué cambiarías.",
+    toastEditSubmitSuccess: "¡Gracias! Vamos a revisar tu corrección.",
   },
   es: {
     eyebrow: "Hecho por y para hispanohablantes confundidos",
     subtitle:
       "Lo que dices tú, lo que entiende un chileno (o no). Busca, filtra y descubre los coloquialismos de cada lado del charco.",
     searchPlaceholder: "Busca una palabra o su significado…",
-    favoritesOnly: "Solo favoritos",
     clearFilters: "Quitar filtros",
     categoriasLabel: "Categorías",
     categoriasClear: "Quitar",
@@ -106,13 +120,21 @@ export const COPY: Record<Locale, Copy> = {
     toastSubmitSuccess: "¡Gracias! Le echaremos un vistazo.",
     toastShareSuccess: "Enlace copiado al portapapeles",
     toastShareError: "No se ha podido copiar el enlace",
+    editButton: "Proponer una corrección",
+    editDialogTitle: "Proponer una corrección",
+    editDialogDescription:
+      "Cuéntanos qué cambiarías de esta palabra (la definición, la categoría, el equivalente del otro país, etc.).",
+    labelFeedback: "¿Qué cambiarías?",
+    feedbackPlaceholder: "Ej: la definición debería decir…",
+    submitEdit: "Enviar propuesta",
+    toastMissingFeedback: "Escribe qué cambiarías.",
+    toastEditSubmitSuccess: "¡Gracias! Le echaremos un vistazo.",
   },
   cl: {
     eyebrow: "Hecho por y para hispanohablantes confundidos",
     subtitle:
       "Lo que dice un español, lo que cachas tú (o no). Busca, filtra y descubre los coloquialismos de cada lado del charco.",
     searchPlaceholder: "Busca una palabra o su significado…",
-    favoritesOnly: "Solo favoritos",
     clearFilters: "Limpiar filtros",
     categoriasLabel: "Categorías",
     categoriasClear: "Limpiar",
@@ -141,5 +163,14 @@ export const COPY: Record<Locale, Copy> = {
     toastSubmitSuccess: "¡Gracias! La vamos a revisar.",
     toastShareSuccess: "Link copiado",
     toastShareError: "No se pudo copiar el link",
+    editButton: "Sugerir una corrección",
+    editDialogTitle: "Sugerir una corrección",
+    editDialogDescription:
+      "Cuéntanos qué cambiarías de esta palabra (la definición, la categoría, el equivalente del otro país, etc.).",
+    labelFeedback: "¿Qué cambiarías?",
+    feedbackPlaceholder: "Ej: la definición debería decir…",
+    submitEdit: "Enviar corrección",
+    toastMissingFeedback: "Escribe qué cambiarías.",
+    toastEditSubmitSuccess: "¡Gracias! La vamos a revisar.",
   },
 };

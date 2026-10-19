@@ -15,11 +15,10 @@ npm install
 ### 2. Crear el proyecto de Supabase
 
 1. Creá un proyecto en [supabase.com](https://supabase.com).
-2. En el **SQL Editor**, corré en orden:
-   - `supabase/migrations/0001_vocabulario.sql`
-   - `supabase/migrations/0002_suggestions.sql`
-   - `supabase/seed.sql` (dataset de ejemplo, opcional pero recomendado para
-     probar la UI antes de cargar el contenido real)
+2. En el **SQL Editor**, corré en orden todo lo que hay en
+   `supabase/migrations/` (de menor a mayor número), y después
+   `supabase/seed.sql` (dataset de ejemplo, opcional pero recomendado para
+   probar la UI antes de cargar el contenido real).
 3. En **Settings > API**, copiá la `Project URL` y la `anon public` key.
 
 ### 3. Variables de entorno
@@ -54,10 +53,16 @@ tocar código para agregar, editar o borrar palabras:
 Los cambios se reflejan en la página en un máximo de 60 segundos (ISR) sin
 necesidad de redeploy.
 
-Las sugerencias que manda la gente desde el botón "Sugerir una palabra"
-llegan a la tabla `suggestions` con `status = 'pending'`. Para aprobar una,
-copiá sus datos a una fila nueva en `vocabulario` (o armá una función/trigger
-que lo automatice más adelante).
+Las sugerencias llegan a la tabla `suggestions` con `status = 'pending'`:
+
+- Palabra nueva ("Sugerir una palabra"): `edit_slug` es `null`, y el texto
+  va en `slang_es` o `slang_cl` según el país elegido.
+- Corrección a una palabra existente (ícono ✏️ en cada fila): `edit_slug`
+  tiene el `slug` de esa palabra en `vocabulario`, y el feedback de texto
+  libre queda en `definicion`.
+
+Para aplicar una sugerencia, copiá los datos a mano en `vocabulario` (o
+armá una función/trigger que lo automatice más adelante).
 
 ## Deploy en Vercel
 
@@ -73,7 +78,7 @@ que lo automatice más adelante).
   y renderiza la landing.
 - `components/vocab-explorer.tsx` — estado de búsqueda/filtros/orden/país.
 - `components/vocab-table.tsx` — tabla (desktop) / tarjetas (mobile).
-- `components/suggest-word-dialog.tsx` — formulario de sugerencias.
-- `hooks/use-favorites.ts`, `hooks/use-country.ts` — preferencias en
-  localStorage.
+- `components/suggest-word-dialog.tsx` — formulario de sugerencias (palabra nueva).
+- `components/suggest-edit-dialog.tsx` — formulario de corrección sobre una palabra existente.
+- `hooks/use-country.ts` — preferencia de país en localStorage.
 - `supabase/migrations/`, `supabase/seed.sql` — schema y dataset de ejemplo.

@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/select";
 import { CategoryFilter } from "@/components/category-filter";
 import type { Copy } from "@/lib/copy";
-import { cn } from "@/lib/utils";
 
 export function VocabControls({
   copy,
@@ -24,8 +23,6 @@ export function VocabControls({
   allTipos,
   tipoFilter,
   onTipoFilterChange,
-  favoritesOnly,
-  onToggleFavoritesOnly,
   onClear,
   hasActiveFilters,
 }: {
@@ -39,8 +36,6 @@ export function VocabControls({
   allTipos: string[];
   tipoFilter: string | null;
   onTipoFilterChange: (tipo: string | null) => void;
-  favoritesOnly: boolean;
-  onToggleFavoritesOnly: () => void;
   onClear: () => void;
   hasActiveFilters: boolean;
 }) {
@@ -80,20 +75,6 @@ export function VocabControls({
             ))}
           </SelectContent>
         </Select>
-        <button
-          type="button"
-          onClick={onToggleFavoritesOnly}
-          aria-pressed={favoritesOnly}
-          className={cn(
-            "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
-            favoritesOnly
-              ? "border-amber-400 bg-amber-50 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200"
-              : "text-muted-foreground hover:text-foreground",
-          )}
-        >
-          <span aria-hidden>{favoritesOnly ? "★" : "☆"}</span>
-          {copy.favoritesOnly}
-        </button>
         {hasActiveFilters && (
           <Button variant="ghost" size="sm" onClick={onClear} className="sm:ml-auto">
             {copy.clearFilters}
